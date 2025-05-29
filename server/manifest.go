@@ -61,6 +61,8 @@ func (m *Manifest) RemoveLayers() error {
 }
 
 func ParseNamedManifest(n model.Name) (*Manifest, error) {
+	return nil, errors.New("manifest parsing disabled")
+	
 	if !n.IsFullyQualified() {
 		return nil, model.Unqualified(n)
 	}

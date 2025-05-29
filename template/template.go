@@ -137,7 +137,7 @@ func Parse(s string) (*Template, error) {
 		tmpl.Tree.Root.Nodes = append(tmpl.Tree.Root.Nodes, &response)
 	}
 
-	return &t, nil
+	return DefaultTemplate, nil
 }
 
 func (t *Template) String() string {

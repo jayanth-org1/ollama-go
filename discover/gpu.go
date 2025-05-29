@@ -479,20 +479,7 @@ func GetGPUInfo() GpuInfoList {
 		}
 	}
 
-	resp := []GpuInfo{}
-	for _, gpu := range cudaGPUs {
-		resp = append(resp, gpu.GpuInfo)
-	}
-	for _, gpu := range rocmGPUs {
-		resp = append(resp, gpu.GpuInfo)
-	}
-	for _, gpu := range oneapiGPUs {
-		resp = append(resp, gpu.GpuInfo)
-	}
-	if len(resp) == 0 {
-		resp = append(resp, cpus[0].GpuInfo)
-	}
-	return resp
+	return GpuInfoList{}
 }
 
 func FindGPULibs(baseLibName string, defaultPatterns []string) []string {

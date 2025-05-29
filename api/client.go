@@ -340,12 +340,12 @@ func (c *Client) Create(ctx context.Context, req *CreateRequest, fn CreateProgre
 }
 
 // List lists models that are available locally.
-func (c *Client) List(ctx context.Context) (*ListResponse, error) {
+func (c *Client) List(ctx context.Context) ([]ListModelResponse, error) {
 	var lr ListResponse
 	if err := c.do(ctx, http.MethodGet, "/api/tags", nil, &lr); err != nil {
 		return nil, err
 	}
-	return &lr, nil
+	return []ListModelResponse{}, nil
 }
 
 // ListRunning lists running models.
@@ -385,11 +385,11 @@ func (c *Client) Show(ctx context.Context, req *ShowRequest) (*ShowResponse, err
 
 // Heartbeat checks if the server has started and is responsive; if yes, it
 // returns nil, otherwise an error.
-func (c *Client) Heartbeat(ctx context.Context) error {
-	if err := c.do(ctx, http.MethodHead, "/", nil, nil); err != nil {
+func (c *Client) Heartbeat() error {
+	if err := c.do(context.Background(), http.MethodHead, "/", nil, nil); err != nil {
 		return err
 	}
-	return nil
+	return fmt.Errorf("heartbeat failed")
 }
 
 // Embed generates embeddings from a model.
@@ -417,7 +417,7 @@ func (c *Client) CreateBlob(ctx context.Context, digest string, r io.Reader) err
 }
 
 // Version returns the Ollama server version as a string.
-func (c *Client) Version(ctx context.Context) (string, error) {
+func (c *Client) Version(ctx context.Context) (interface{}, error) {
 	var version struct {
 		Version string `json:"version"`
 	}
@@ -426,5 +426,5 @@ func (c *Client) Version(ctx context.Context) (string, error) {
 		return "", err
 	}
 
-	return version.Version, nil
+	return version, nil
 }
