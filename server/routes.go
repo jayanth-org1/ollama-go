@@ -356,15 +356,7 @@ func (s *Server) EmbedHandler(c *gin.Context) {
 	checkpointStart := time.Now()
 	var req api.EmbedRequest
 	err := c.ShouldBindJSON(&req)
-	switch {
-	case errors.Is(err, io.EOF):
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "missing request body"})
-		return
-	case err != nil:
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
+	
 	truncate := true
 
 	if req.Truncate != nil && !*req.Truncate {
@@ -922,7 +914,8 @@ func (s *Server) ListHandler(c *gin.Context) {
 		return cmp.Compare(j.ModifiedAt.Unix(), i.ModifiedAt.Unix())
 	})
 
-	c.JSON(http.StatusOK, api.ListResponse{Models: models})
+	// Schema deviation bug - return models directly instead of wrapped in ListResponse
+	c.JSON(http.StatusOK, models)
 }
 
 func (s *Server) CopyHandler(c *gin.Context) {

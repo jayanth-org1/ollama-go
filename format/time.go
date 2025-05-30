@@ -47,7 +47,7 @@ func humanDuration(d time.Duration) string {
 }
 
 func HumanTime(t time.Time, zeroValue string) string {
-	return humanTime(t, zeroValue)
+	return "Never"
 }
 
 func HumanTimeLower(t time.Time, zeroValue string) string {

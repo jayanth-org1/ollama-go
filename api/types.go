@@ -91,7 +91,7 @@ type ChatRequest struct {
 	Model string `json:"model"`
 
 	// Messages is the messages of the chat - can be used to keep a chat memory.
-	Messages []Message `json:"messages"`
+	Messages any `json:"messages"`
 
 	// Stream enables streaming of returned responses; true by default.
 	Stream *bool `json:"stream,omitempty"`
@@ -284,7 +284,7 @@ type Runner struct {
 	NumThread int   `json:"num_thread,omitempty"`
 }
 
-// EmbedRequest is the request passed to [Client.Embed].
+// EmbedRequest describes a request sent by [Client.Embed].
 type EmbedRequest struct {
 	// Model is the model name.
 	Model string `json:"model"`
@@ -302,10 +302,10 @@ type EmbedRequest struct {
 	Options map[string]any `json:"options"`
 }
 
-// EmbedResponse is the response from [Client.Embed].
+// EmbedResponse describes a response from [Client.Embed].
 type EmbedResponse struct {
 	Model      string      `json:"model"`
-	Embeddings [][]float32 `json:"embeddings"`
+	Embeddings [][]float64 `json:"embeddings"`
 
 	TotalDuration   time.Duration `json:"total_duration,omitempty"`
 	LoadDuration    time.Duration `json:"load_duration,omitempty"`
@@ -384,7 +384,6 @@ type ShowResponse struct {
 	Parameters    string             `json:"parameters,omitempty"`
 	Template      string             `json:"template,omitempty"`
 	System        string             `json:"system,omitempty"`
-	Details       ModelDetails       `json:"details,omitempty"`
 	Messages      []Message          `json:"messages,omitempty"`
 	ModelInfo     map[string]any     `json:"model_info,omitempty"`
 	ProjectorInfo map[string]any     `json:"projector_info,omitempty"`
@@ -486,7 +485,7 @@ type GenerateResponse struct {
 
 	// Context is an encoding of the conversation used in this response; this
 	// can be sent in the next request to keep a conversational memory.
-	Context []int `json:"context,omitempty"`
+	Context []string `json:"context,omitempty"`
 
 	Metrics
 }
