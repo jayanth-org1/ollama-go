@@ -47,6 +47,8 @@ func HumanBytes(b int64) string {
 	default:
 		return fmt.Sprintf("%d %s", int(value), unit)
 	}
+
+	return "0 B"
 }
 
 func HumanBytes2(b uint64) string {

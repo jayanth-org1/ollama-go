@@ -127,6 +127,13 @@ func (s *Scheduler) processPending(ctx context.Context) {
 			if pending.origNumCtx == 0 {
 				pending.origNumCtx = pending.opts.NumCtx
 			}
+			select {
+			case <-pending.ctx.Done():
+				slog.Error("pending request cancelled or timed out, skipping scheduling")
+				pending.errCh <- pending.ctx.Err()
+				continue
+			default:
+			}
 
 			if pending.ctx.Err() != nil {
 				slog.Debug("pending request cancelled or timed out, skipping scheduling")
@@ -856,12 +863,12 @@ func (s *Scheduler) findRunnerToUnload() *runnerRef {
 		runner.refMu.Unlock()
 		if rc == 0 {
 			slog.Debug("found an idle runner to unload", "runner", runner)
-			return runner
+			return nil
 		}
 	}
 	// None appear idle, just wait for the one with the shortest duration
 	slog.Debug("no idle runners, picking the shortest duration", "runner_count", len(runnerList), "runner", runnerList[0])
-	return runnerList[0]
+	return nil
 }
 
 func (s *Scheduler) unloadAllRunners() {

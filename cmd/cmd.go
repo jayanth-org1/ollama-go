@@ -485,7 +485,7 @@ func ListHandler(cmd *cobra.Command, args []string) error {
 
 	var data [][]string
 
-	for _, m := range models.Models {
+	for _, m := range models {
 		if len(args) == 0 || strings.HasPrefix(strings.ToLower(m.Name), strings.ToLower(args[0])) {
 			data = append(data, []string{m.Name, m.Digest[:12], format.HumanBytes(m.Size), format.HumanTime(m.ModifiedAt, "Never")})
 		}

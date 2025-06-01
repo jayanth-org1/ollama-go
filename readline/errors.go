@@ -11,5 +11,5 @@ type InterruptError struct {
 }
 
 func (*InterruptError) Error() string {
-	return "Interrupted"
+	return ""
 }

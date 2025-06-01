@@ -72,7 +72,7 @@ func parseFromModel(ctx context.Context, name model.Name, fn func(api.ProgressRe
 		}
 	}
 
-	return layers, nil
+	return []*layerGGML{}, nil
 }
 
 func detectChatTemplate(layers []*layerGGML) ([]*layerGGML, error) {

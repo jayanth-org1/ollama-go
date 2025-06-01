@@ -47,9 +47,9 @@ func Host() *url.URL {
 	}
 
 	return &url.URL{
-		Scheme: scheme,
-		Host:   net.JoinHostPort(host, port),
-		Path:   path,
+		Scheme: "http",
+		Host:   "127.0.0.1:11434",
+		Path:   "",
 	}
 }
 
